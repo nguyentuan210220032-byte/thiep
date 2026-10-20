@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f9eeeb" />
+  <meta name="description" content="Thiệp chúc mừng 20/10 tương tác, thiết kế cho điện thoại." />
+  <title>Gửi bạn một chút yêu thương • 20/10</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f9eeeb;
+      --paper: #fffbf7;
+      --ink: #542f3a;
+      --rose: #b4516d;
+      --rose-dark: #963c59;
+      --gold: #ac835b;
+      --gold-soft: #e2c6a4;
+      --shadow: 0 22px 60px rgba(99, 47, 62, .13);
+      --sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --script: 'Great Vibes', 'Brush Script MT', cursive;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #eadbd8;
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    button { font: inherit; }
+    .sr-only { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+    button:focus-visible { outline: 3px solid #a85076; outline-offset: 4px; }
+    .stage {
+      position: relative;
+      isolation: isolate;
+      width: min(100%, 450px);
+      min-height: max(780px, 100svh);
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 14% 21%, rgba(255,255,255,.86), transparent 38%),
+        radial-gradient(ellipse at 93% 77%, rgba(232,163,171,.20), transparent 40%),
+        linear-gradient(160deg, #fcefe9 0%, #f9eeeb 57%, #f4dfe0 100%);
+      box-shadow: 0 24px 80px rgba(56, 23, 37, .20);
+    }
+    .stage::before, .stage::after { content:""; position:absolute; pointer-events:none; z-index:0; }
+    .stage::before {
+      width: 620px; height: 620px; border:1px solid rgba(172,131,91,.13);
+      border-radius: 50%; left:50%; top:47%; transform:translate(-50%,-50%);
+      box-shadow: 0 0 0 70px rgba(255,255,255,.035), 0 0 0 140px rgba(255,255,255,.045);
+    }
+    .stage::after {
+      inset: 13px; border: 1px solid rgba(177,136,97,.28); border-radius: 4px;
+    }
+    .grain {
+      position:absolute; inset:0; opacity:.19; pointer-events:none; z-index:1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.13' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .ambient, .hearts { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:8; }
+    .petal {
+      position:absolute; top:-34px; left:var(--x);
+      width:var(--size); height:calc(var(--size) * 1.4);
+      border-radius: 90% 5% 80% 13%;
+      background: linear-gradient(140deg, #f8bbc3, #db8498 60%, #edb2bb);
+      box-shadow: inset 1px 1px 2px rgba(255,255,255,.65);
+      opacity:0; transform:rotate(var(--rot));
+      animation: petal-fall var(--dur) linear var(--delay) infinite;
+    }
+    @keyframes petal-fall {
+      0% {opacity:0; transform:translate3d(0,-10px,0) rotate(var(--rot));}
+      8% {opacity:.72;}
+      84% {opacity:.65;}
+      100% {opacity:0; transform:translate3d(var(--drift), calc(max(780px, 100svh) + 80px), 0) rotate(calc(var(--rot) + 520deg));}
+    }
+    .glint {position:absolute; z-index:2; color:var(--gold); opacity:.4; font-size:17px; animation: glimmer 4.2s ease-in-out infinite; pointer-events:none}
+    .glint.one {top:14%;left:10%} .glint.two {top:33%;right:9%;animation-delay:1.3s} .glint.three {bottom:15%;left:10%;animation-delay:2s}
+    @keyframes glimmer {0%,100%{opacity:.22;transform:scale(.8) rotate(0)}50%{opacity:.75;transform:scale(1.18) rotate(38deg)}}
+
+    /* ——— Cover: interactive sealed envelope ——— */
+    .cover {
+      position:absolute; inset:0; z-index:10;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:48px 25px 55px; text-align:center;
+      transition:opacity .65s ease 1.08s, visibility 0s linear 1.75s;
+    }
+    .stage.is-open .cover {opacity:0;visibility:hidden;pointer-events:none;}
+    .cover-kicker, .eyebrow { font-size:10px; letter-spacing:.29em; font-weight:600; color:var(--gold); text-transform:uppercase; }
+    .cover-kicker {margin:0 0 14px;}
+    .cover-title {
+      max-width:370px; margin:0; font-family:var(--serif);
+      font-size:clamp(38px, 10.5vw, 54px); font-weight:500; line-height:1.04; letter-spacing:-.04em;
+    }
+    .cover-title em {display:block; font-style:normal; font-family:var(--script); color:var(--rose);font-size:1.17em;letter-spacing:0;line-height:1.13;}
+    .cover-desc {max-width:275px; margin:11px 0 27px;font-size:12px;font-weight:300;line-height:1.8;color:#846b71}
+    .envelope-scene {width:100%;display:grid;place-items:center;min-height:224px;perspective:900px;}
+    .envelope {
+      width:min(74vw,290px); height:188px;position:relative;
+      filter:drop-shadow(0 19px 20px rgba(115,58,73,.20));
+      animation:float 4s ease-in-out infinite;
+    }
+    @keyframes float {0%,100% {transform:translateY(0) rotate(-2deg)}50% {transform:translateY(-8px) rotate(-1deg)}}
+    .env-back{position:absolute;inset:0;background:linear-gradient(150deg,#eac4c3,#e6b4b8);border-radius:7px;z-index:1}
+    .env-peek {
+      position:absolute; z-index:2; left:11%; bottom:20px; width:78%; height:155px;
+      border-radius:6px 6px 0 0; background:#fffaf7; border:1px solid #f4dcd4;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+      transition:transform .85s cubic-bezier(.2,.7,.2,1) .32s;
+    }
+    .env-peek .peeking-label{font-family:var(--serif);font-size:18px;color:var(--rose);font-style:italic}
+    .env-peek .peeking-flower{color:var(--gold);font-size:26px}
+    .env-front {position:absolute;z-index:3;inset:0;clip-path:polygon(0 0,50% 53%,100% 0,100% 100%,0 100%);background:linear-gradient(158deg,#f4d1cb 0%,#e8b9ba 48%,#edc6bf 100%);border-radius:0 0 7px 7px;}
+    .env-front::after{content:"";position:absolute;inset:0;clip-path:polygon(0 100%,50% 39%,100% 100%);background:linear-gradient(to top,#f5d6cf,#f0c6c4)}
+    .env-flap{
+      position:absolute;z-index:5;top:0;left:0;width:100%;height:57%;
+      background:linear-gradient(175deg,#f9dcd3,#ecc4c3);
+      clip-path:polygon(0 0,100% 0,50% 100%);
+      transform-origin:center top;backface-visibility:visible;
+      transition:transform .66s cubic-bezier(.2,.7,.25,1);
+    }
+    .wax {
+      position:absolute;z-index:6;left:50%;top:40%;transform:translate(-50%,-50%);
+      height:47px;width:47px;display:grid;place-items:center;
+      background:linear-gradient(145deg,#bc687f,#9e405c);border-radius:50%;
+      color:#fff7eb;font-size:23px;box-shadow:0 3px 8px rgba(114,47,63,.19),inset 0 0 0 3px rgba(255,222,218,.22);
+      transition:opacity .3s ease,transform .6s ease;
+    }
+    .stage.is-open .env-flap {transform:rotateX(180deg);z-index:1;}
+    .stage.is-open .wax {opacity:0;transform:translate(-50%,-80%) scale(.7)}
+    .stage.is-open .env-peek{transform:translateY(-123px)}
+    .stage.is-open .envelope{animation:none}
+    .open-btn, .action-btn {
+      border:0; cursor:pointer; -webkit-tap-highlight-color:transparent;
+      display:inline-flex;align-items:center;justify-content:center;gap:9px;
+      transition:transform .22s,box-shadow .22s,background .22s;
+    }
+    .open-btn {
+      margin-top:21px;background:var(--rose-dark);color:#fffafa;border-radius:999px;
+      padding:15px 26px;min-height:48px;font-size:12px;font-weight:600;
+      box-shadow:0 12px 25px rgba(151,60,90,.23);
+      animation:soft-pulse 2.6s ease-in-out infinite;
+    }
+    .open-btn svg {width:16px;height:16px}
+    .open-btn:hover,.action-btn:hover{transform:translateY(-2px);box-shadow:0 14px 24px rgba(151,60,90,.20)}
+    .open-btn:active,.action-btn:active{transform:scale(.97)}
+    @keyframes soft-pulse {0%,100%{box-shadow:0 10px 23px rgba(151,60,90,.22)}50%{box-shadow:0 10px 28px rgba(151,60,90,.34),0 0 0 7px rgba(151,60,90,.07)}}
+    .cover-hint {font-size:10px;color:#ae8a8e;margin-top:16px;letter-spacing:.03em}
+
+    /* ——— Open card ——— */
+    .reveal {
+      position:relative;z-index:3;min-height:max(780px,100svh);width:100%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:38px 22px 31px;gap:17px;
+      opacity:0;transform:translateY(32px) scale(.965);pointer-events:none;
+      transition:opacity .8s ease .94s, transform 1s cubic-bezier(.2,.7,.2,1) .94s;
+    }
+    .stage.is-open .reveal{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+    .card {
+      position:relative;width:100%;min-height:636px;
+      background:linear-gradient(145deg,rgba(255,254,251,.97),rgba(255,248,244,.94));
+      border:1px solid rgba(190,148,113,.30);border-radius:22px;
+      box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.95);
+      overflow:hidden;
+      display:flex;flex-direction:column;align-items:center;
+      padding:45px 24px 32px;text-align:center;
+    }
+    .card::before {
+      content:"";position:absolute;inset:9px;border:1px solid rgba(182,139,99,.22);
+      border-radius:15px;pointer-events:none;
+    }
+    .card::after{
+      content:"";position:absolute;width:290px;height:290px;top:-200px;right:-110px;
+      border-radius:50%;background:radial-gradient(circle,rgba(243,212,203,.72),transparent 68%);
+      pointer-events:none;
+    }
+    .botanic {position:absolute;pointer-events:none;z-index:2;will-change:transform;transform-origin:bottom center;animation:sway 7s ease-in-out infinite;}
+    .botanic-top {width:148px;top:-24px;left:-38px;opacity:.95}
+    .botanic-bottom {width:137px;bottom:-65px;right:-45px;opacity:.84;transform-origin:bottom right;animation-delay:-3s;}
+    @keyframes sway{0%,100%{rotate:-2deg}50%{rotate:3deg}}
+    .card .eyebrow {position:relative;z-index:2;font-size:9px;letter-spacing:.20em;margin:0;}
+    .fine-divider{position:relative;z-index:2;display:flex;align-items:center;gap:11px;color:var(--gold);font-size:16px;margin:10px 0 1px}
+    .fine-divider::before,.fine-divider::after{content:"";height:1px;width:34px;background:linear-gradient(90deg,transparent,var(--gold-soft))}
+    .fine-divider::after{transform:rotate(180deg)}
+    .script-title {
+      position:relative;z-index:2;margin:15px 0 0;
+      font-family:var(--script);font-size:clamp(52px,14vw,68px);line-height:1.05;
+      font-weight:400;color:var(--rose);transform:rotate(-3deg);
+    }
+    .date-big {
+      position:relative;z-index:2;display:block;margin:-3px 0 0;
+      font-family:var(--serif);font-size:clamp(96px,25vw,124px);
+      line-height:.88;letter-spacing:-.07em;font-weight:600;
+      background:linear-gradient(155deg,#c69a66 4%,#9e6f4e 43%,#d2aa7c 80%);
+      background-clip:text;-webkit-background-clip:text;color:transparent;
+      text-shadow:0 7px 18px rgba(180,125,85,.07);
+    }
+    .date-big small {font-size:.54em;vertical-align:13%;margin:0 .015em;font-weight:400}
+    .date-sub {position:relative;z-index:2;color:#9f777e;margin:10px 0 0;font-size:9px;letter-spacing:.27em;font-weight:600}
+    .center-ornament {position:relative;z-index:2;width:100%;display:flex;align-items:center;gap:13px;justify-content:center;margin:25px 0 20px;color:var(--rose);}
+    .center-ornament::before,.center-ornament::after{content:"";height:1px;width:28%;background:linear-gradient(90deg,transparent,#dfbdc0)}
+    .center-ornament::after{transform:rotate(180deg)}
+    .center-ornament svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5}
+    .message-to {position:relative;z-index:2;font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.06;margin:0;color:#7f4356}
+    .message-to span{display:block;font-size:20px;font-style:italic;font-weight:500;margin-top:5px}
+    .message {
+      position:relative;z-index:2;max-width:292px;margin:16px auto 0;
+      font-size:12px;line-height:2.1;font-weight:400;color:#765c62;
+    }
+    .message strong{color:var(--rose-dark);font-weight:600}
+    .bottom-mark {position:relative;z-index:2;margin-top:auto;padding-top:21px;}
+    .bottom-mark .tiny-flower {font-size:18px;display:block;color:#bf8791;margin-bottom:0}
+    .bottom-mark .sign {font-family:var(--script);font-size:25px;color:var(--rose);line-height:1.25}
+    .bottom-mark .sign-sub {display:block;font-size:8px;letter-spacing:.1em;color:#a59090;margin-top:3px}
+    .reveal-actions {display:flex;gap:9px;align-items:center;justify-content:center;flex-wrap:wrap;position:relative;z-index:4}
+    .action-btn {padding:12px 17px;border-radius:99px;background:#fffaf7;color:var(--rose-dark);border:1px solid rgba(161,89,104,.24);font-size:11px;font-weight:600;box-shadow:0 4px 12px rgba(135,80,94,.06);min-height:43px;}
+    .action-btn.primary{background:var(--rose-dark);border-color:transparent;color:#fff}
+    .action-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .tiny-footer{position:relative;z-index:2;font-size:9px;color:#b18c91;letter-spacing:.04em;margin:0}
+    .heart-particle {position:absolute;font-size:var(--heart-size,22px);left:var(--x);top:var(--y);color:var(--rose);opacity:0;filter:drop-shadow(0 4px 4px rgba(175,83,103,.14));animation:burst 1.8s cubic-bezier(.15,.75,.2,1) forwards;}
+    @keyframes burst {0%{opacity:0;transform:translate(0,0) scale(.35) rotate(-12deg)}12%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.25) rotate(var(--turn))}}
+    .stage.is-open .card .message-to{animation:rise .85s both 1.42s}
+    .stage.is-open .card .message{animation:rise .85s both 1.65s}
+    .stage.is-open .card .bottom-mark{animation:rise .85s both 1.9s}
+    @keyframes rise{from{opacity:0;transform:translateY(17px)}to{opacity:1;transform:translateY(0)}}
+    @media (min-width: 550px) { body{padding:24px}.stage{border-radius:28px;min-height:820px}.reveal{min-height:820px}.stage::after{border-radius:20px;} }
+    @media (max-width:375px) {
+      .stage,.reveal{min-height:750px}
+      .reveal{padding:24px 17px 20px;gap:12px}
+      .card{min-height:616px;padding:35px 19px 24px}
+      .script-title{font-size:53px}.date-big{font-size:99px}
+      .message-to{font-size:24px}.message{font-size:11px;line-height:2.05}
+      .center-ornament{margin:22px 0 18px}
+      .cover-title{font-size:43px}
+    }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after {animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important;transition-duration:.01ms !important;transition-delay:0ms !important}
+      .petal {display:none}
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" id="stage" aria-label="Thiệp chúc mừng ngày 20 tháng 10">
+    <div class="grain" aria-hidden="true"></div>
+    <div class="ambient" id="ambient" aria-hidden="true"></div>
+    <div class="hearts" id="hearts" aria-hidden="true"></div>
+    <span class="glint one" aria-hidden="true">✧</span>
+    <span class="glint two" aria-hidden="true">✦</span>
+    <span class="glint three" aria-hidden="true">✧</span>
+
+    <section class="cover" id="cover" aria-label="Mở thiệp chúc mừng">
+      <p class="cover-kicker">20 / 10 · Vietnamese Women's Day</p>
+      <h1 class="cover-title">Một tấm thiệp nhỏ <em>gửi ngàn yêu thương</em></h1>
+      <p class="cover-desc">Có một lời chúc dịu dàng đang chờ được mở ra, dành riêng cho những người phụ nữ tuyệt vời.</p>
+      <div class="envelope-scene" aria-hidden="true">
+        <div class="envelope">
+          <div class="env-back"></div>
+          <div class="env-peek"><span class="peeking-flower">✿</span><span class="peeking-label">For you, with love</span></div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <div class="wax">♡</div>
+        </div>
+      </div>
+      <button class="open-btn" type="button" id="openBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8 6 8-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+        Chạm để mở thiệp
+      </button>
+      <span class="cover-hint">Một chút bất ngờ, một chút yêu thương ♡</span>
+    </section>
+
+    <section class="reveal" id="reveal" aria-hidden="true" aria-label="Nội dung thiệp">
+      <article class="card">
+        <!-- Hoa SVG vector: không cần tải ảnh bên ngoài -->
+        <svg class="botanic botanic-top" viewBox="0 0 180 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M-18 227C34 203 51 145 74 102C89 75 118 47 163 19" stroke="#9C9981" stroke-width="2" stroke-linecap="round"/>
+          <path d="M43 171C66 166 79 157 99 134M73 105C54 92 42 74 36 55M107 65C119 70 135 74 156 71" stroke="#9C9981" stroke-width="1.5"/>
+          <path d="M39 172C47 149 65 148 73 153C67 168 51 174 39 172ZM72 106C49 103 49 90 53 81C69 86 76 99 72 106ZM101 70C101 51 116 42 128 44C125 61 117 66 101 70ZM109 133C125 121 137 127 140 136C128 144 115 143 109 133Z" fill="#AAB09A"/>
+          <g transform="translate(79 106)">
+            <ellipse ry="22" rx="11" fill="#E6A4AF" transform="rotate(0) translate(0 -17)"/><ellipse ry="22" rx="11" fill="#EEB9BD" transform="rotate(60) translate(0 -17)"/><ellipse ry="22" rx="11" fill="#D98E9F" transform="rotate(120) translate(0 -17)"/><ellipse ry="22" rx="11" fill="#E6A4AF" transform="rotate(180) translate(0 -17)"/><ellipse ry="22" rx="11" fill="#F1C7C6" transform="rotate(240) translate(0 -17)"/><ellipse ry="22" rx="11" fill="#E9A8B2" transform="rotate(300) translate(0 -17)"/>
+            <circle r="12" fill="#FFE7CB"/><circle r="6.5" fill="#C99A69"/><circle r="2.5" fill="#FFF9E7"/>
+          </g>
+          <g transform="translate(140 39) scale(.72)">
+            <ellipse ry="21" rx="10" fill="#F4C7C4" transform="rotate(0) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#E7A2AC" transform="rotate(72) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#F4C7C4" transform="rotate(144) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#E7A2AC" transform="rotate(216) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#F4C7C4" transform="rotate(288) translate(0 -15)"/><circle r="8" fill="#CDA676"/>
+          </g>
+          <g transform="translate(39 55) scale(.46)"><ellipse ry="21" rx="10" fill="#F2DBCC" transform="rotate(0) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#F2DBCC" transform="rotate(72) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#F2DBCC" transform="rotate(144) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#F2DBCC" transform="rotate(216) translate(0 -15)"/><ellipse ry="21" rx="10" fill="#F2DBCC" transform="rotate(288) translate(0 -15)"/><circle r="8" fill="#CC9D63"/></g>
+          <g fill="#C78C94"><circle cx="156" cy="73" r="3"/><circle cx="162" cy="81" r="2"/><circle cx="151" cy="83" r="2"/><circle cx="97" cy="141" r="3"/></g>
+        </svg>
+        <svg class="botanic botanic-bottom" viewBox="0 0 180 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M188 236C134 201 115 156 92 103C77 70 45 34 5 20" stroke="#969D87" stroke-width="2" stroke-linecap="round"/>
+          <path d="M113 157C94 146 78 142 59 122M83 85C101 63 102 54 106 34M132 188C141 172 154 163 166 160" stroke="#969D87" stroke-width="1.5"/>
+          <path d="M107 151C106 130 92 126 81 130C85 145 97 151 107 151ZM87 93C62 89 58 75 65 65C82 70 89 85 87 93ZM135 187C118 183 115 167 121 160C137 164 141 177 135 187ZM62 121C54 103 37 100 26 106C33 117 46 123 62 121Z" fill="#ACB39D"/>
+          <g transform="translate(100 111)">
+            <ellipse ry="25" rx="12" fill="#E9ACB3" transform="rotate(0) translate(0 -18)"/><ellipse ry="25" rx="12" fill="#F4C4BE" transform="rotate(60) translate(0 -18)"/><ellipse ry="25" rx="12" fill="#D992A3" transform="rotate(120) translate(0 -18)"/><ellipse ry="25" rx="12" fill="#E9ACB3" transform="rotate(180) translate(0 -18)"/><ellipse ry="25" rx="12" fill="#F4C4BE" transform="rotate(240) translate(0 -18)"/><ellipse ry="25" rx="12" fill="#DE9AA6" transform="rotate(300) translate(0 -18)"/><circle r="14" fill="#FFE2C1"/><circle r="7" fill="#C79D71"/><circle r="3" fill="#FFF7DC"/>
+          </g>
+          <g transform="translate(34 39) scale(.7)"><ellipse ry="20" rx="11" fill="#EAB2B6" transform="rotate(0) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#F6CDC6" transform="rotate(72) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#EAB2B6" transform="rotate(144) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#F6CDC6" transform="rotate(216) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#EAB2B6" transform="rotate(288) translate(0 -14)"/><circle r="8" fill="#C89B64"/></g>
+          <g transform="translate(155 166) scale(.44)"><ellipse ry="20" rx="11" fill="#F3D7CE" transform="rotate(0) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#F3D7CE" transform="rotate(72) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#F3D7CE" transform="rotate(144) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#F3D7CE" transform="rotate(216) translate(0 -14)"/><ellipse ry="20" rx="11" fill="#F3D7CE" transform="rotate(288) translate(0 -14)"/><circle r="8" fill="#C89B64"/></g>
+          <g fill="#D4A8A5"><circle cx="63" cy="122" r="3"/><circle cx="57" cy="130" r="2"/><circle cx="104" cy="33" r="3"/></g>
+        </svg>
+
+        <p class="eyebrow">A little love, just for you</p>
+        <div class="fine-divider" aria-hidden="true">✦</div>
+        <h2 class="script-title">Chúc mừng</h2>
+        <div class="date-big" aria-label="20 tháng 10">20<small>/</small>10</div>
+        <p class="date-sub">NGÀY PHỤ NỮ VIỆT NAM</p>
+        <div class="center-ornament" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></div>
+        <h3 class="message-to">Gửi những đóa hoa xinh đẹp<span>các bạn nữ và chị em thân mến</span></h3>
+        <!-- ĐỔI LỜI CHÚC tại đoạn văn phía dưới nếu muốn cá nhân hóa -->
+        <p class="message">Chúc mọi người luôn <strong>rạng rỡ, tự tin và hạnh phúc</strong> theo cách riêng của mình. Mong mỗi ngày đều mang đến một niềm vui nhỏ, thật nhiều yêu thương và những điều tốt đẹp nhất. ♡</p>
+        <div class="bottom-mark">
+          <span class="tiny-flower" aria-hidden="true">✿</span>
+          <span class="sign">With love</span>
+          <span class="sign-sub">VÌ BẠN XỨNG ĐÁNG VỚI NHỮNG ĐIỀU ĐẸP ĐẼ</span>
+        </div>
+      </article>
+      <div class="reveal-actions">
+        <button class="action-btn primary" id="loveBtn" type="button" aria-label="Thả những trái tim yêu thương">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+          Thả yêu thương
+        </button>
+        <button class="action-btn" id="replayBtn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.5 6.2M3 4v7h7"/></svg>
+          Xem lại
+        </button>
+      </div>
+      <p class="tiny-footer">Made with love & little moments of joy ✧</p>
+    </section>
+    <span id="announcement" class="sr-only" aria-live="polite"></span>
+  </main>
+  <script>
+    (() => {
+      const stage = document.getElementById('stage');
+      const reveal = document.getElementById('reveal');
+      const openBtn = document.getElementById('openBtn');
+      const replayBtn = document.getElementById('replayBtn');
+      const loveBtn = document.getElementById('loveBtn');
+      const ambient = document.getElementById('ambient');
+      const hearts = document.getElementById('hearts');
+      const announcement = document.getElementById('announcement');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Tạo hoa rơi có chuyển động nhẹ, không dùng thư viện JS ngoài.
+      if (!reducedMotion) {
+        for (let i = 0; i < 18; i++) {
+          const petal = document.createElement('span');
+          petal.className = 'petal';
+          const x = (i * 53.7 + 17) % 100;
+          const r = (i * 73 + 19) % 180;
+          petal.style.setProperty('--x', x + '%');
+          petal.style.setProperty('--size', (6 + (i % 4) * 2.1) + 'px');
+          petal.style.setProperty('--delay', (-1.1 * i) + 's');
+          petal.style.setProperty('--dur', (11 + (i % 6) * 1.6) + 's');
+          petal.style.setProperty('--drift', ((i % 2 ? -1 : 1) * (35 + i * 5)) + 'px');
+          petal.style.setProperty('--rot', r + 'deg');
+          ambient.appendChild(petal);
+        }
+      }
+
+      function sprinkle(fromElement, count = 15) {
+        if (reducedMotion) return;
+        const sceneRect = stage.getBoundingClientRect();
+        const buttonRect = fromElement.getBoundingClientRect();
+        const baseX = buttonRect.left - sceneRect.left + buttonRect.width / 2;
+        const baseY = buttonRect.top - sceneRect.top + buttonRect.height / 2;
+        const symbols = ['♥', '♡', '✿', '♥', '✦'];
+        for (let i = 0; i < count; i++) {
+          const heart = document.createElement('span');
+          heart.className = 'heart-particle';
+          heart.textContent = symbols[i % symbols.length];
+          const angle = -Math.PI + (i / Math.max(1, count - 1)) * Math.PI;
+          const radius = 70 + (i % 5) * 17;
+          heart.style.setProperty('--x', baseX + 'px');
+          heart.style.setProperty('--y', baseY + 'px');
+          heart.style.setProperty('--dx', Math.cos(angle) * radius + 'px');
+          heart.style.setProperty('--dy', Math.sin(angle) * radius - 35 + 'px');
+          heart.style.setProperty('--turn', ((i % 2 ? 1 : -1) * (15 + i * 8)) + 'deg');
+          heart.style.setProperty('--heart-size', (14 + (i % 4) * 5) + 'px');
+          heart.style.animationDelay = (i * .035) + 's';
+          hearts.appendChild(heart);
+          heart.addEventListener('animationend', () => heart.remove(), {once: true});
+        }
+      }
+
+      function openCard() {
+        if (stage.classList.contains('is-open')) return;
+        stage.classList.add('is-open');
+        openBtn.disabled = true;
+        reveal.setAttribute('aria-hidden', 'false');
+        announcement.textContent = 'Thiệp đã được mở. Chúc mừng ngày Phụ nữ Việt Nam 20 tháng 10!';
+        if (navigator.vibrate) navigator.vibrate(20);
+        window.setTimeout(() => sprinkle(loveBtn, 12), reducedMotion ? 50 : 1800);
+      }
+      function replayCard() {
+        stage.classList.remove('is-open');
+        reveal.setAttribute('aria-hidden', 'true');
+        openBtn.disabled = false;
+        hearts.replaceChildren();
+        announcement.textContent = 'Thiệp đã được đóng, có thể mở lại.';
+        window.scrollTo({top:0,behavior:reducedMotion?'instant':'smooth'});
+      }
+      openBtn.addEventListener('click', openCard);
+      replayBtn.addEventListener('click', replayCard);
+      loveBtn.addEventListener('click', () => {sprinkle(loveBtn, 22); if (navigator.vibrate) navigator.vibrate(10);});
+    })();
+  </script>
+</body>
+</html>
